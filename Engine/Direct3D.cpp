@@ -43,7 +43,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	scDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 何色使えるか
 
 	//FPS（1/60秒に1回）
-	scDesc.BufferDesc.RefreshRate.Numerator = 60;
+	scDesc.BufferDesc.RefreshRate.Numerator   = 60;
 	scDesc.BufferDesc.RefreshRate.Denominator = 1;
 
 	//その他
@@ -57,7 +57,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 	////////////////上記設定をもとにデバイス、コンテキスト、スワップチェインを作成////////////////////////
 	D3D_FEATURE_LEVEL level;
-	hr =D3D11CreateDeviceAndSwapChain(
+	hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,				// どのビデオアダプタを使用するか？既定ならばnullptrで
 		D3D_DRIVER_TYPE_HARDWARE,		// ドライバのタイプを渡す。ふつうはHARDWARE
 		nullptr,				// 上記をD3D_DRIVER_TYPE_SOFTWAREに設定しないかぎりnullptr
@@ -85,7 +85,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 
 	///////////////////////////ビューポート（描画範囲）設定///////////////////////////////
-//レンダリング結果を表示する範囲
+	//レンダリング結果を表示する範囲
 	D3D11_VIEWPORT vp;
 	vp.Width = (float)winW;	//幅
 	vp.Height = (float)winH;//高さ
@@ -229,13 +229,11 @@ HRESULT Direct3D::InitShader2D()
 
 void Direct3D::SetShader(SHADER_TYPE type)
 {
-	
-		//それぞれをデバイスコンテキストにセット
-		pContext_->VSSetShader(shaderBundle[type].pVertexShader_, NULL, 0);//頂点シェーダー
-		pContext_->PSSetShader(shaderBundle[type].pPixelShader_, NULL, 0);	//ピクセルシェーダー
-		pContext_->IASetInputLayout(shaderBundle[type].pVertexLayout_);	//頂点インプットレイアウト
-		pContext_->RSSetState(shaderBundle[type].pRasterizerState_);		//ラスタライザー
-
+	//それぞれをデバイスコンテキストにセット
+	pContext_->VSSetShader(shaderBundle[type].pVertexShader_, NULL, 0);	//頂点シェーダー
+	pContext_->PSSetShader(shaderBundle[type].pPixelShader_, NULL, 0);	//ピクセルシェーダー
+	pContext_->IASetInputLayout(shaderBundle[type].pVertexLayout_);		//頂点インプットレイアウト
+	pContext_->RSSetState(shaderBundle[type].pRasterizerState_);		//ラスタライザー
 }
 
 //描画開始
