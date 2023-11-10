@@ -1,9 +1,12 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Sprite.h"
 class Stage : public GameObject
 {
 private:
 	int hModel_;
+	Sprite* pSprite;
+	Transform spTrans;
 public:
 	//コンストラクタ
 	//引数：parent 

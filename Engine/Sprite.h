@@ -1,62 +1,76 @@
 #pragma once
-
-#include <DirectXMath.h>
 #include "Direct3D.h"
-#include"Texture.h"
-#include<vector>
-#include<d3d11.h>
-#include"Transform.h"
+#include "Texture.h"
+#include <vector>
+#include "Transform.h"
 
 
-using namespace DirectX;
+
+#define SAFE_DELETE_ARRAY(p) if(p != nullptr){ delete[] p; p = nullptr;}
 
 
+
+//四角形ポリゴン（三角形を２枚）を描画するクラス
 class Sprite
 {
-//コンスタントバッファ
-struct CONSTANT_BUFFER
-{
-	XMMATRIX	matW;
-};
+    //コンスタントバッファー
+    struct CONSTANT_BUFFER
+    {
+        XMMATRIX    matW;       //ワールド行列
+    };
 
-//頂点情報
-struct VERTEX
-{
-	XMVECTOR position;
-	XMVECTOR uv;
-};
+    //頂点情報
+    struct VERTEX
+    {
+        XMVECTOR position;  //位置
+        XMVECTOR uv;        //UV
+    };
 
 protected:
-	
-	std::vector<VERTEX> vertices_;
-	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
-	TexMetadata image_;
-	
-	std::vector<int>index_;
-	ID3D11Buffer* pIndexBuffer_;
-	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
-	Texture* pTexture_;
-	int vertexNum_;
-	int indexNum_;
+    uint64_t vertexNum_;        //頂点数
+    std::vector<VERTEX> vertices_;      //頂点情報
+    ID3D11Buffer* pVertexBuffer_;       //頂点バッファ
+
+    uint64_t indexNum;          //インデックス数
+    std::vector<int> index_;            //インデックス情報
+    ID3D11Buffer* pIndexBuffer_;        //インデックスバッファ
+
+    ID3D11Buffer* pConstantBuffer_; //コンスタントバッファ
+
+    Texture* pTexture_;     //テクスチャ
+
+
 public:
-	Sprite();
-	~Sprite();
-	HRESULT Initialize();
-	void Draw(Transform& transform);
-	void Release();
+    Sprite();
+    ~Sprite();
+
+    //初期化（ポリゴンを表示するための各種情報を準備）
+    //戻値：成功／失敗
+    HRESULT Initialize();
+
+    //描画
+    //引数：transform  トランスフォームクラスオブジェクト
+    void Draw(Transform& transform);
+
+    //解放
+    void Release();
+
+
+
 private:
+    //---------Initializeから呼ばれる関数---------
+    virtual void InitVertexData();      //頂点情報の準備
+    HRESULT CreateVertexBuffer();       //頂点バッファを作成
 
-	virtual void InitVertexData(int winH,int winW);
-	HRESULT CreateVertexBuffer();
+    virtual void InitIndexData();       //インデックス情報を準備
+    HRESULT CreateIndexBuffer();        //インデックスバッファを作成
 
-	virtual void InitIndexData();
-	HRESULT CreateIndexBuffer();
+    HRESULT CreateConstantBuffer();     //コンスタントバッファ作成
 
-	HRESULT CreateConstantBuffer();
+    HRESULT LoadTexture();              //テクスチャをロード
 
-	HRESULT LoadTexture();
 
-	void PassDataToCB(XMMATRIX worldMatrix);
-	
-	void SetBufferToPipeline();
+    //---------Draw関数から呼ばれる関数---------
+    void PassDataToCB(XMMATRIX worldMatrix);    //コンスタントバッファに各種情報を渡す
+    void SetBufferToPipeline();                         //各バッファをパイプラインにセット
 };
