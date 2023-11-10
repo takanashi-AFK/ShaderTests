@@ -125,6 +125,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			//input処理
 			Input::Update();
+
 			pRootJob->UpdateSub();
 
 			//↓描画↓//
