@@ -46,5 +46,9 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 //„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ
 float4 PS(VS_OUT inData) : SV_Target
 {
-    return  g_texture.Sample(g_sampler, inData.uv)*inData.uv.x;
+    float4 output;
+   // output = g_texture.Sample(g_sampler, inData.uv);
+   // output =( (output.x * 2) + (output.y * 4) + (output.z))/7; //GlayScale
+    output = floor(g_texture.Sample(g_sampler, inData.uv) * 8) / 8; //postrerization
+    return  output;
 }
