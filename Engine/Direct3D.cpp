@@ -116,7 +116,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	pContext_->RSSetViewports(1, &vp);
 
 	//シェーダー準備
-	hr =InitShader();
+	hr = InitShader();
 	return S_OK;
 }
 

@@ -11,23 +11,35 @@ Stage::Stage(GameObject* parent)
 
 void Stage::Initialize()
 {
-	hModel_ = Model::Load("Assets/BoxDefault.fbx");
-	pSprite = new Sprite();
-	pSprite->Initialize();
+	
+	hModelG = Model::Load("Assets/Ground.fbx");
+	hModelB = Model::Load("Assets/Sphere.fbx");
+	hModelA = Model::Load("Assets/Arrow.fbx");
+	arrowTrans.rotate_.y = -90;
+	ballTrans.position_.y = 2.5;
+	
+	//pSprite = new Sprite();
+	//pSprite->Initialize();
 }
 
 void Stage::Update()
 {
-	transform_.rotate_.y += 0.75;
 }
 
 void Stage::Draw()
 {
-	Model::SetTransform(hModel_, transform_);
-	Model::Draw(hModel_);
 
-	spTrans.scale_ = { 0.75 ,0.75 ,0.75 };
-	pSprite->Draw(spTrans);
+	Model::SetTransform(hModelG, transform_);
+	Model::Draw(hModelG);
+	
+	Model::SetTransform(hModelA, arrowTrans);
+	Model::Draw(hModelA);
+	
+	Model::SetTransform(hModelB, ballTrans);
+	Model::Draw(hModelB);
+
+	//spTrans.scale_ = { 0.75 ,0.75 ,0.75 };
+	//pSprite->Draw(spTrans);
 }
 
 void Stage::Release()

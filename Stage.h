@@ -4,7 +4,11 @@
 class Stage : public GameObject
 {
 private:
-	int hModel_;
+	int hModelG;
+	int hModelB;
+	int hModelA;
+	Transform arrowTrans;
+	Transform ballTrans;
 	Sprite* pSprite;
 	Transform spTrans;
 public:

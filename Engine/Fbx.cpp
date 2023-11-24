@@ -238,12 +238,10 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 
 	for (int i = 0; i < materialCount_; i++) {
-
 		cb.diffuseColor = pMaterialList_[i].diffuse;
 		cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+		
 
-		cb.diffuseColor = XMFLOAT4{ 1,0,0,1 };
-		cb.isTexture = pMaterialList_[i].pTexture != nullptr;
 
 		D3D11_MAPPED_SUBRESOURCE pdata;
 		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める

@@ -47,7 +47,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     //輝度情報をピクセルシェーダ―へ
     float4 light = float4(-1, 0.5, -0.7, 0);
     light = normalize(light);
-    outData.color = clamp(dot(normal, light), 0, 1);;
+    outData.color = clamp(dot(normal, light), 0, 1);
 
     //まとめて出力
     return outData;
@@ -58,7 +58,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-    float4 ambientSource = float4(0.5,0.5,0.5,1.0);//暗い場所でも環境校などが反射して見える色
+    float4 ambientSource = float4(0.5,0.5,0.5,0);//暗い場所でも環境校などが反射して見える色
     float4 lightSource = float4(1.0f,1.0f,1.0f,0.0f);//光の色
     float4 diffuse;
     float4 ambient;
@@ -74,5 +74,6 @@ float4 PS(VS_OUT inData) : SV_Target
         diffuse = lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
         ambient = lightSource * g_texture.Sample(g_sampler, inData.uv) * ambientSource;//表面色*強さ
     }
-    return diffuse + ambient;
+  return diffuse + ambient;
+  
 }
