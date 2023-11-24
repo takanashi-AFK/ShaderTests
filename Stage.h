@@ -7,7 +7,9 @@ private:
 	int hModelG;
 	int hModelB;
 	int hModelA;
-	Transform arrowTrans;
+	Transform arrowTransX;
+	Transform arrowTransY;
+	Transform arrowTransZ;
 	Transform ballTrans;
 	Sprite* pSprite;
 	Transform spTrans;
