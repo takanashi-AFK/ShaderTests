@@ -27,12 +27,9 @@ class Fbx
 
 	struct CONSTANT_BUFFER
 	{
-		XMMATRIX	matWm;
 		XMMATRIX	matWVP;
-		XMVECTOR	lVec;
-		XMFLOAT3	camPos;
-		XMFLOAT4	diffuseColor;		// ディフューズカラー（マテリアルの色）
 		XMMATRIX	matNormal;
+		XMFLOAT4		diffuseColor;		// ディフューズカラー（マテリアルの色）
 		int		isTexture;
 	};
 
@@ -64,7 +61,7 @@ public:
 	void	InitVertex(fbxsdk::FbxMesh* mesh);
 	void	InitIndex(fbxsdk::FbxMesh* mesh);
 	void	InitMaterial(fbxsdk::FbxNode* pNode);
-	void	InitConstantBuffer();
+	void	IntConstantBuffer();
 
 	void	SetBufferToPipeline(Transform transform);
 

@@ -45,7 +45,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     normal = mul(normal, matNormal);
 
     //輝度情報をピクセルシェーダ―へ
-    float4 light = float4(-1, 1, 0, 0);
+    float4 light = float4(-1, 0, 0, 0);
     light = normalize(light);
     outData.color = clamp(dot(normal, light), 0, 1);
 
