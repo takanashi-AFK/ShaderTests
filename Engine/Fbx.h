@@ -61,7 +61,7 @@ public:
 	void	InitVertex(fbxsdk::FbxMesh* mesh);
 	void	InitIndex(fbxsdk::FbxMesh* mesh);
 	void	InitMaterial(fbxsdk::FbxNode* pNode);
-	void	IntConstantBuffer();
+	void	InitConstantBuffer();
 
 	void	SetBufferToPipeline(Transform transform);
 
