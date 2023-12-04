@@ -18,7 +18,6 @@ void Stage::Initialize()
 	arrowTrans.rotate_.y = -90;
 	ballTrans.position_.y = 2.5;
 	
-	
 	//pSprite = new Sprite();
 	//pSprite->Initialize();
 }
