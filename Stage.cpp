@@ -13,10 +13,13 @@ void Stage::Initialize()
 {
 	
 	hModelG = Model::Load("Assets/Ground.fbx");
-	hModelB = Model::Load("Assets/Sphere.fbx");
+	hModelB = Model::Load("Assets/Sphere.fbx");	
 	hModelA = Model::Load("Assets/Arrow.fbx");
+	arrowTrans.scale_ = { 0.3,0.3,0.3 };
 	arrowTrans.rotate_.y = -90;
+	arrowTrans.position_.y = 1.25;
 	ballTrans.position_.y = 2.5;
+	transform_.scale_ = { 7,7,7 };
 	
 	//pSprite = new Sprite();
 	//pSprite->Initialize();
@@ -24,6 +27,11 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
+	//ŒõŒ¹‚ÌˆÊ’u‚ðWASD‚Æ‚©‚ÅŽw’è
+
+	//Model‚©‚çLightPos‚à‚Á‚Ä‚­‚é
+
+	ballTrans.rotate_.y += 0.8;
 }
 
 void Stage::Draw()

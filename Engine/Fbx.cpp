@@ -232,16 +232,15 @@ void Fbx::IntConstantBuffer()
 
 void Fbx::SetBufferToPipeline(Transform transform)
 {
+	for (int i = 0; i < materialCount_; i++) {
 
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
-
-	for (int i = 0; i < materialCount_; i++) {
-		cb.diffuseColor = pMaterialList_[i].diffuse;
-		cb.isTexture = pMaterialList_[i].pTexture != nullptr;
-		
-
+	cb.diffuseColor = pMaterialList_[i].diffuse;
+	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+	//XMStoreFloat4(&cb.eyePosition, Camera::GetPosition());
+	cb.eyePosition = Camera::GetPosition();
 
 		D3D11_MAPPED_SUBRESOURCE pdata;
 		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める

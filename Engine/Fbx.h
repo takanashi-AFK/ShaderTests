@@ -7,6 +7,7 @@
 #include"Direct3D.h"
 #include"Camera.h"
 #include<vector>
+#include <DirectXMath.h>
 
 class Texture;
 
@@ -27,10 +28,12 @@ class Fbx
 
 	struct CONSTANT_BUFFER
 	{
-		XMMATRIX	matWVP;
-		XMMATRIX	matNormal;
-		XMFLOAT4		diffuseColor;		// ディフューズカラー（マテリアルの色）
-		int		isTexture;
+		XMMATRIX	matWVP;//ワールドビュープロジェクション
+		XMMATRIX	matNormal;//スケール*平行移動の逆行列
+		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
+		int			isTexture;
+		XMVECTOR	eyePosition;
+		//XMFLOAT4	lightPosition;
 	};
 
 	struct VERTEX
@@ -39,6 +42,7 @@ class Fbx
 		XMVECTOR uv;
 		XMVECTOR normal;
 	};
+
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数 だいたいvertex*3になるでしょう
 	int materialCount_;	//マテリアルの個数
@@ -48,9 +52,6 @@ class Fbx
 	ID3D11Buffer** pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
 	MATERIAL* pMaterialList_;
-
-
-
 
 public:
 

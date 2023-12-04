@@ -14,6 +14,7 @@ cbuffer global
     float4x4    matNormal;       // ワールド行列
     float4		diffuseColor;		// ディフューズカラー（マテリアルの色）
     bool 		isTexture;		// テクスチャ貼ってあるかどうか
+    vector  	eyePosition;
 };
 
 //───────────────────────────────────────
@@ -49,6 +50,8 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     light = normalize(light);
     outData.color = clamp(dot(normal, light), 0, 1);
 
+    eyePosition;
+
     //まとめて出力
     return outData;
 }
@@ -58,7 +61,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-    float4 ambientSource = float4(0.5,0.5,0.5,0);//暗い場所でも環境校などが反射して見える色
+    float4 ambientSource = float4(0.5,0.5,0.5,0);//暗い場所でも環境光などが反射して見える色
     float4 lightSource = float4(1.0f,1.0f,1.0f,0.0f);//光の色
     float4 diffuse;
     float4 ambient;
