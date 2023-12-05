@@ -1,6 +1,6 @@
 #include "Fbx.h"
 #include"Texture.h"
-
+#include"../LightPosController.h"
 using namespace std;
 Fbx::Fbx():pVertexBuffer_(nullptr),pIndexBuffer_(nullptr), pConstantBuffer_(nullptr),vertexCount_(0),polygonCount_(0)
 {
@@ -148,7 +148,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 		indexCount_[i] = count;
 		D3D11_BUFFER_DESC   bd;
 		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.ByteWidth = sizeof(int) * count;//countであってる？？？？？？？？？？？？？？？？？？？？
+		bd.ByteWidth = sizeof(int) * count;
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		bd.CPUAccessFlags = 0;
 		bd.MiscFlags = 0;
@@ -235,19 +235,20 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	for (int i = 0; i < materialCount_; i++) {
 
 	CONSTANT_BUFFER cb;
+	cb.matW = XMMatrixTranspose(transform.GetWorldMatrix());
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 	cb.diffuseColor = pMaterialList_[i].diffuse;
+	cb.lightPosition = LightPosController::GetLightPosition();
+	XMStoreFloat4(&cb.eyepos, Camera::GetPosition());
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
-	//XMStoreFloat4(&cb.eyePosition, Camera::GetPosition());
-	cb.eyePosition = Camera::GetPosition();
+
 
 		D3D11_MAPPED_SUBRESOURCE pdata;
 		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 		memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 
 		Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
-
 
 	//頂点バッファ
 	UINT stride = sizeof(VERTEX);
@@ -271,7 +272,6 @@ void Fbx::SetBufferToPipeline(Transform transform)
 		Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
 	}
 }
-
 
 void Fbx::Release()
 {

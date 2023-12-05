@@ -2,6 +2,7 @@
 #include"Engine/SceneManager.h"
 #include"Engine/Input.h"
 #include"Engine/Model.h"
+#include "LightPosController.h"
 
 
 Stage::Stage(GameObject* parent)
@@ -28,8 +29,21 @@ void Stage::Initialize()
 void Stage::Update()
 {
 	//ŒõŒ¹‚ÌˆÊ’u‚ðWASD‚Æ‚©‚ÅŽw’è
-
+	lightPos = LightPosController::GetLightPosition();
 	//Model‚©‚çLightPos‚à‚Á‚Ä‚­‚é
+	if (Input::IsKey(DIK_W))
+		lightPos.z += 0.5;
+
+	if (Input::IsKey(DIK_A))
+		lightPos.x += 0.5;
+
+	if (Input::IsKey(DIK_S))
+		lightPos.z -= 0.5;
+
+	if (Input::IsKey(DIK_D))
+		lightPos.x -= 0.5;
+
+	LightPosController::SetLightPosition(lightPos);
 
 	ballTrans.rotate_.y += 0.8;
 }

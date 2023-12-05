@@ -11,6 +11,8 @@ private:
 	Transform ballTrans;
 	Sprite* pSprite;
 	Transform spTrans;
+	XMFLOAT4 lightPos;
+
 public:
 	//コンストラクタ
 	//引数：parent 
@@ -27,4 +29,6 @@ public:
 
 	//開放
 	void Release() override;
+
+	XMFLOAT4 GetLightPos;
 };

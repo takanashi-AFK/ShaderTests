@@ -15,8 +15,6 @@ class Texture;
 #pragma comment(lib, "LibXml2-Md.lib")
 #pragma comment(lib, "zlib-Md.lib")
 
-
-
 class Fbx
 {
 	//マテリアル
@@ -28,12 +26,13 @@ class Fbx
 
 	struct CONSTANT_BUFFER
 	{
+		XMMATRIX	matW;
 		XMMATRIX	matWVP;//ワールドビュープロジェクション
 		XMMATRIX	matNormal;//スケール*平行移動の逆行列
 		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
+		XMFLOAT4	eyepos;
+		XMFLOAT4	lightPosition;
 		int			isTexture;
-		XMVECTOR	eyePosition;
-		//XMFLOAT4	lightPosition;
 	};
 
 	struct VERTEX
@@ -65,7 +64,4 @@ public:
 	void	IntConstantBuffer();
 
 	void	SetBufferToPipeline(Transform transform);
-
-
-
 };
