@@ -15,10 +15,11 @@ void Stage::Initialize()
 	
 	hModelG = Model::Load("Assets/Ground.fbx");
 	hModelB = Model::Load("Assets/Sphere.fbx");	
-	hModelA = Model::Load("Assets/Arrow.fbx");
+	hModelA = Model::Load("Assets/donut.fbx");
 	arrowTrans.scale_ = { 0.3,0.3,0.3 };
-	arrowTrans.rotate_.y = -90;
+	arrowTrans.rotate_.y = 0;
 	arrowTrans.position_.y = 1.25;
+	arrowTrans.position_.z = -2;
 	ballTrans.position_.y = 2.5;
 	transform_.scale_ = { 7,7,7 };
 	
@@ -32,16 +33,28 @@ void Stage::Update()
 	lightPos = LightPosController::GetLightPosition();
 	//Model‚©‚çLightPos‚à‚Á‚Ä‚­‚é
 	if (Input::IsKey(DIK_W))
+	{
 		lightPos.z += 0.5;
 
+	}
+
 	if (Input::IsKey(DIK_A))
+	{
 		lightPos.x += 0.5;
 
+	}
+
 	if (Input::IsKey(DIK_S))
+	{
 		lightPos.z -= 0.5;
 
+	}
+
 	if (Input::IsKey(DIK_D))
+	{
 		lightPos.x -= 0.5;
+
+	}
 
 	LightPosController::SetLightPosition(lightPos);
 
