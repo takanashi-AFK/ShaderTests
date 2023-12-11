@@ -169,6 +169,40 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 
 void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 {
+	//pMaterialList_ = new MATERIAL[materialCount_];
+
+	//for (int i = 0; i < materialCount_; i++)
+	//{
+	//	//i番目のマテリアル情報を取得
+	//	FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+	//	FbxSurfacePhong* pPhong = (FbxSurfacePhong*)pMaterial;
+
+	//	//テクスチャ情報
+	//	FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+	//	//テクスチャの数
+	//	int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
+
+	//		FbxDouble3  ambient  = FbxDouble3(0, 0, 0);
+	//		FbxDouble3	specular = FbxDouble3(0, 0, 0);
+	//		FbxDouble3  diffuse  = FbxDouble3(0, 0, 0);
+	//		ambient = pPhong->Ambient;
+	//		diffuse = pPhong->Diffuse;
+
+	//	pMaterialList_[i].ambient = XMFLOAT4((float)ambient[0], (float)ambient[1], (float)ambient[2], 1.0f);
+	//	pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
+	//	pMaterialList_[i].specular = XMFLOAT4(0, 0, 0, 0);
+	//	pMaterialList_[i].shininess = 0;
+
+	//	//Maya側でphongつかった？lambert？ってやつを探す
+
+	//	if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId))
+	//	{
+	//		specular = pPhong->Specular;
+	//		pMaterialList_[i].specular = XMFLOAT4((float)specular[0], (float)specular[1], (float)specular[2], (float)specular[3]);
+	//		pMaterialList_[i].shininess = (float)pPhong->Shininess;
+	//	}
+	//}
 
 	pMaterialList_ = new MATERIAL[materialCount_];
 
@@ -176,33 +210,12 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 	{
 		//i番目のマテリアル情報を取得
 		FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
-		FbxSurfacePhong* pPhong = (FbxSurfacePhong*)pMaterial;
 
 		//テクスチャ情報
 		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 
-		//テクスチャの数
+		//テクスチャの数数
 		int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
-
-			FbxDouble3 ambient = FbxDouble3(0, 0, 0);
-			FbxDouble3	specular = FbxDouble3(0, 0, 0);
-			FbxDouble3  diffuse = FbxDouble3(0, 0, 0);
-			ambient = pPhong->Ambient;
-			diffuse = pPhong->Diffuse;
-
-		pMaterialList_[i].ambient = XMFLOAT4((float)ambient[0], (float)ambient[1], (float)ambient[2], (float)ambient[3]);
-		pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], (float)diffuse[3]);
-		pMaterialList_[i].specular = XMFLOAT4(0, 0, 0, 0);
-		pMaterialList_[i].shininess = 0;
-
-		//Maya側でphongつかった？lambert？ってやつを探す
-
-		if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId))
-		{
-			specular = pPhong->Specular;
-			pMaterialList_[i].specular = XMFLOAT4((float)specular[0], (float)specular[1], (float)specular[2], (float)specular[3]);
-			pMaterialList_[i].shininess = (float)pPhong->Shininess;
-		}
 
 		//テクスチャあり
 		if (fileTextureCount != 0)
@@ -225,14 +238,13 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 		{
 			pMaterialList_[i].pTexture = nullptr;
 			//マテリアルの色
-			
+			FbxSurfaceLambert* pMaterial = (FbxSurfaceLambert*)pNode->GetMaterial(i);
+			FbxDouble3  diffuse = pMaterial->Diffuse;
 			pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
-
-			pMaterialList_[i].specular = XMFLOAT4((float)specular[0], (float)specular[1], (float)specular[2], (float)specular[3]);
-			pMaterialList_[i].shininess = (float)pMaterial->Shininess;
-
 		}
 	}
+
+
 }
 
 void Fbx::IntConstantBuffer()
@@ -263,8 +275,7 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 	cb.diffuseColor = pMaterialList_[i].diffuse;
-	cb.lightPosition = LightPosController::GetLightPosition();
-	XMStoreFloat4(&cb.eyepos, Camera::GetPosition());
+	
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
 
 

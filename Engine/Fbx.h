@@ -33,8 +33,6 @@ class Fbx
 		XMMATRIX	matWVP;//ワールドビュープロジェクション
 		XMMATRIX	matNormal;//スケール*平行移動の逆行列
 		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
-		XMFLOAT4	eyepos;
-		XMFLOAT4	lightPosition;
 		int			isTexture;
 	};
 

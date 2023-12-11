@@ -7,11 +7,17 @@ private:
 	int hModelG;
 	int hModelB;
 	int hModelA;
+
+	int hModelLightPos;
 	Transform arrowTrans;
 	Transform ballTrans;
+	Transform lightPosTrans;
 	Sprite* pSprite;
 	Transform spTrans;
 	XMFLOAT4 lightPos;
+
+	ID3D11Buffer* pCBStageScene_;
+
 
 public:
 	//コンストラクタ
@@ -31,4 +37,6 @@ public:
 	void Release() override;
 
 	XMFLOAT4 GetLightPos;
+
+	void InitConstantBuffer();
 };
