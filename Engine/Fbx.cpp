@@ -209,8 +209,19 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 	for (int i = 0; i < materialCount_; i++)
 	{
 		//i番目のマテリアル情報を取得
-		FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+		FbxSurfacePhong* pMaterial =static_cast<FbxSurfacePhong*>( pNode->GetMaterial(i));
+		FbxDouble3 diffuse = pMaterial->Diffuse;
+		FbxDouble3 ambient = pMaterial->Ambient;
 
+		if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId)) {
+			FbxDouble3 specular = pMaterial->Specular;
+			FbxDouble shininess = pMaterial->Shininess;
+			pMaterialList_[i].specular = XMFLOAT4{ (float)specular[0],(float)specular[1] ,(float)specular[2],1.0f };
+			pMaterialList_[i].shininess = (float)shininess;
+		}
+
+		pMaterialList_[i].diffuse = XMFLOAT4{ (float)diffuse[0],(float)diffuse[1] ,(float)diffuse[2],1.0f };
+		pMaterialList_[i].ambient = XMFLOAT4{ (float)ambient[0],(float)ambient[1] ,(float)ambient[2],1.0f };
 		//テクスチャ情報
 		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 
