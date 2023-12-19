@@ -48,6 +48,8 @@ class Fbx
 	int materialCount_;	//ƒ}ƒeƒŠƒAƒ‹‚ÌŒÂ”
 	int *indexCount_;
 
+	Texture *pToonTex;
+
 	ID3D11Buffer* pVertexBuffer_;
 	ID3D11Buffer** pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
