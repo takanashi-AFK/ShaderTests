@@ -315,7 +315,7 @@ HRESULT Direct3D::InitOutLineShader()
 
 
 	///////////Ç±Ç±ÅIÅIÅI////////////
-	rdc.CullMode = D3D11_CULL_BACK;
+	rdc.CullMode = D3D11_CULL_FRONT;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	/////////////////////////////////
 
