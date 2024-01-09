@@ -18,18 +18,8 @@ struct CBUFF_STAGESCENE
 
 void Stage::Initialize()
 {
-	
-	hModelG = Model::Load("Assets/Ground.fbx");
-	hModelB = Model::Load("Assets/Sphere.fbx");	
-	hModelA = Model::Load("Assets/donut.fbx");
-	hModelLightPos = Model::Load("Assets/Sphere.fbx");
-	arrowTrans.scale_ = { 0.3,0.3,0.3 };
-	arrowTrans.rotate_.y = 0;
-	arrowTrans.position_.y = 1.25;
-	arrowTrans.position_.z = -2;
-	ballTrans.position_.y = 2.5;
-	transform_.scale_ = { 7,7,7 };
-	lightPosTrans.scale_ = { 0.2,0.2,0.2 };
+	hModelLightPos = Model::Load("Assets/BoxDefault.fbx");
+
 
 	lightPos = { 0,0,0,0 };
 
@@ -81,11 +71,12 @@ void Stage::Update()
 
 	LightPosController::SetLightPosition(lightPos);
 
-	ballTrans.rotate_.y += 0.8;
-
 	lightPosTrans.position_ = { lightPos.x,lightPos.y, lightPos.z };
 
 	CBUFF_STAGESCENE cbStage;
+
+	lightPosTrans.rotate_.z += 0.2;
+	lightPosTrans.rotate_.y += 0.2;
 
 	//cbStage.lightPosition = LightPosController::GetLightPosition();
 	cbStage.lightPosition = lightPos;
@@ -99,16 +90,6 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-
-	Model::SetTransform(hModelG, transform_);
-	Model::Draw(hModelG);
-	
-	Model::SetTransform(hModelA, arrowTrans);
-	Model::Draw(hModelA);
-	
-	Model::SetTransform(hModelB, ballTrans);
-	Model::Draw(hModelB);
-	
 	Model::SetTransform(hModelLightPos, lightPosTrans);
 	Model::Draw(hModelLightPos);
 
