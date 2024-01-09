@@ -62,7 +62,7 @@ HRESULT Fbx::Load(std::string fileName)
 
 void Fbx::Draw(Transform& transform)
 {
-	Direct3D::SetShader(SHADER_3D);
+	Direct3D::SetShader(SHADER_TOON);
 	transform.Calclation();
 
 	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
