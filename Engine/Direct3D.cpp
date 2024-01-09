@@ -138,6 +138,11 @@ HRESULT Direct3D::InitShader()
 		return E_FAIL;
 	}
 
+	if (FAILED(InitOutLineShader()))
+	{
+		return E_FAIL;
+	}
+
 
 	return S_OK;
 }
@@ -310,7 +315,7 @@ HRESULT Direct3D::InitOutLineShader()
 
 
 	///////////Ç±Ç±ÅIÅIÅI////////////
-	rdc.CullMode = D3D11_CULL_FRONT;
+	rdc.CullMode = D3D11_CULL_BACK;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	/////////////////////////////////
 

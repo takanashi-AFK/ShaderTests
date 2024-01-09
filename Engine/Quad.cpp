@@ -46,11 +46,10 @@ HRESULT Quad::Initialize()
 void Quad::Draw(Transform& transform)
 {
 
-	Direct3D::SetShader(SHADER_3D);
+	Direct3D::SetShader(SHADER_OUTLINE);
 	transform.Calclation();
 	//コンスタントバッファに情報を渡す
-	PassDataTo
-	(transform);
+	PassDataToCB(transform);
 
 	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
 	SetBufferToPipeline();
