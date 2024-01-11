@@ -31,8 +31,6 @@ void Stage::Initialize()
 	transform_.scale_ = { 7,7,7 };
 	lightPosTrans.scale_ = { 0.2,0.2,0.2 };
 
-	lightPos = { 0,0,0,0 };
-
 	InitConstantBuffer();
 
 	
@@ -47,36 +45,26 @@ void Stage::Update()
 	//Model‚©‚çLightPos‚à‚Á‚Ä‚­‚é
 	if (Input::IsKey(DIK_W))
 	{
-		lightPos.y += 0.03;
+		lightPos.z += 0.1;
 
 	}
 
 	if (Input::IsKey(DIK_A))
 	{
-		lightPos.x -= 0.03;
+		lightPos.x -= 0.1;
 
 	}
 
 	if (Input::IsKey(DIK_S))
 	{
-		lightPos.y -= 0.03;
+		lightPos.z += 0.1;
 
 	}
 
 	if (Input::IsKey(DIK_D))
 	{
-		lightPos.x += 0.03;
+		lightPos.x -= 0.1;
 
-	}
-
-	if (Input::IsKey(DIK_UP))
-	{
-		lightPos.z += 0.03;
-	}
-
-	if (Input::IsKey(DIK_DOWN))
-	{
-		lightPos.z -= 0.03;
 	}
 
 	LightPosController::SetLightPosition(lightPos);
