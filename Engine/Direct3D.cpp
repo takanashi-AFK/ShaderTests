@@ -315,7 +315,7 @@ HRESULT Direct3D::InitOutLineShader()
 
 
 	///////////ここ！！！////////////
-	rdc.CullMode = D3D11_CULL_FRONT;
+	rdc.CullMode = D3D11_CULL_BACK;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	/////////////////////////////////
 
@@ -348,16 +348,12 @@ void Direct3D::BeginDraw()
 	pContext_->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-
 //描画終了
-
 void Direct3D::EndDraw()
 {
 	//スワップ（バックバッファを表に表示する）
 	pSwapChain_->Present(0, 0);
 }
-
-
 
 //解放処理
 void Direct3D::Release()
