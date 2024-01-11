@@ -11,14 +11,13 @@ SamplerState    g_sampler : register(s0);   //サンプラー
 cbuffer global:register(b0)
 {
     float4x4    matW;           //ワールド行列
-    float4x4    matWVP;         // ワールド・ビュー・プロジェクションの合成行列
+    float4x4    matWVP;         //ワールド・ビュー・プロジェクションの合成行列
     float4x4    matNormal;      //法線
-    float4      diffuseColor;   // ディフューズカラー（マテリアルの色）
+    float4      diffuseColor;   //ディフューズカラー（マテリアルの色）
     float4      ambientColor;
     float4      specularColor;
     float       shininess;
     bool        isTexture;      // テクスチャ貼ってあるかどうか
-
 };
 
 cbuffer global:register(b1)
@@ -55,8 +54,6 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     normal = normalize(normal);
     outData.normal = normal;
 
-
-
     float4 light = normalize(lightPosition);
     light = normalize(light);
 
@@ -72,17 +69,14 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-    float4 lightSource = float4(1.0, 1.0, 1.0, 1.0);
+    float4 lightSource = float4(1.0, 1.0, 1.0, 0.0);
     float4 ambientSource = float4(0.2, 0.2, 0.2, 1.0); //物体がどれだけ環境光を反射または放射するかを制御する
     float4 diffuse;
     float4 ambient;
     float4 NL = dot(inData.normal, normalize(lightPosition));
     float4 reflection = reflect(normalize(-lightPosition), inData.normal);
     // float4 reflect = normalize(2 * NL * inData.normal - normalize(lightPosition));
-     float4 specular = pow(saturate(dot(reflection, normalize(inData.eyev))), shininess) * specularColor;
-
-     float4 Clr = 3.0f;
-     inData.color = floor(inData.color * Clr) / Clr;
+    float4 specular = pow(saturate(dot(reflection, normalize(inData.eyev))), shininess) * specularColor;
 
      if (isTexture == false)
      {
@@ -94,6 +88,6 @@ float4 PS(VS_OUT inData) : SV_Target
          diffuse = lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
          ambient = lightSource * g_texture.Sample(g_sampler, inData.uv) * ambientSource;
      }
-
+        
      return diffuse + ambient;
 }

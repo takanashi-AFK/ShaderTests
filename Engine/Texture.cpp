@@ -14,7 +14,6 @@ Texture::~Texture()
 
 HRESULT Texture::Load(string filename)
 {
-
 	////////////‰æ‘œ“Ç‚İ‚İ////////////
 	wchar_t wtext[FILENAME_MAX];
 
