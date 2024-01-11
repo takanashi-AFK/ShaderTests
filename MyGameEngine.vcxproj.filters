@@ -83,7 +83,7 @@
     <FxCompile Include="ToonShader.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="OutLine.hlsl">
+    <FxCompile Include="outline.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
