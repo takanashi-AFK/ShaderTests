@@ -84,21 +84,6 @@ float4 PS(VS_OUT inData) : SV_Target
      float4 Clr = 3.0f;
      inData.color = floor(inData.color * Clr) / Clr;
 
-     /*if (inData.color.x < 1 / 3.0f)
-     {
-         Clr = float4(0.0, 0.0, 0.0, 1.0);
-     }
-     else if (inData.color.x < 2 / 3.0f)
-     {
-         Clr = float4(0.5, 0.5, 0.5, 1.0);
-     }
-     else
-     {
-         Clr = float4(1.0, 1.0, 1.0, 1.0);
-     }*/
-
-
-
      if (isTexture == false)
      {
          diffuse = lightSource * diffuseColor * inData.color;

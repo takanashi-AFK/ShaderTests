@@ -46,7 +46,7 @@ HRESULT Quad::Initialize()
 void Quad::Draw(Transform& transform)
 {
 
-	Direct3D::SetShader(SHADER_3D);
+	Direct3D::SetShader(SHADER_TOON);
 	transform.Calclation();
 	//コンスタントバッファに情報を渡す
 	PassDataToCB(transform);
