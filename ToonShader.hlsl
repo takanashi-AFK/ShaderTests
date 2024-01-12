@@ -94,10 +94,10 @@ float4 PS(VS_OUT inData) : SV_Target
       uv.y = 0;
 
       if (abs(dot(inData.normal, normalize(inData.eyev))) > 0.3)
-          return float4(0,0,0,0);
+          return float4(1, 1, 1, 1);
           //return g_toontexture.Sample(g_sampler, inData.color);
       else
-          return float4(0,0,0, 0);
+          return float4(1,1,1,1);
 
       //{//—ÖŠs‚Ìˆ—
       //if (abs(dot(inData.normal,normalize(inData.eyev)))>0.3)

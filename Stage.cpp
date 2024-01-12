@@ -18,7 +18,7 @@ struct CBUFF_STAGESCENE
 
 void Stage::Initialize()
 {
-	hModelLightPos = Model::Load("Assets/BoxDefault.fbx");
+	hModelLightPos = Model::Load("Assets/Donut.fbx");
 
 
 	lightPos = { 0,0,0,0 };

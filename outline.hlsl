@@ -48,20 +48,10 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     VS_OUT outData = (VS_OUT)0;
     //ローカル座標に、ワールド・ビュー・プロジェクション行列をかけて
     //スクリーン座標に変換し、ピクセルシェーダーへ
+    normal.w = 0;// 0いれとくとバグとかが少ない
     pos = pos + normal * 0.05;
     outData.pos = mul(pos, matWVP);
-    outData.uv = uv;
-    normal.w = 0;// 0いれとくとバグとかが少ない
-    normal = mul(normal, matNormal);
-    normal = normalize(normal);
-    outData.normal = normal;
-
-    float4 light = normalize(lightPosition);
-    light = normalize(light);
-
-    outData.color = saturate(dot(normal, light));
-    float4 posw = mul(pos, matW);
-    outData.eyev = eyepos - posw;
+   
     //まとめて出力
     return outData;
 }
@@ -71,5 +61,5 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //───────────────────────────────────────
 float4 PS(VS_OUT inData) : SV_Target
 {
-      return float4(1,1,1 , 1);
+      return float4(0,0,0,0);
 }
