@@ -21,6 +21,7 @@ class Fbx
 	struct MATERIAL
 	{
 		Texture* pTexture;
+		Texture* pNormalTexture;
 		XMFLOAT4	ambient;
 		XMFLOAT4	diffuse;
 		XMFLOAT4 specular;
@@ -33,14 +34,16 @@ class Fbx
 		XMMATRIX	matWVP;//ワールドビュープロジェクション
 		XMMATRIX	matNormal;//スケール*平行移動の逆行列
 		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
-		int			isTexture;
+		int			isTexture;//これなんでintなん？あとでboolに直して試してみる
+
 	};
 
 	struct VERTEX
 	{
-		XMVECTOR position;
-		XMVECTOR uv;
-		XMVECTOR normal;
+		XMVECTOR position;//位置
+		XMVECTOR uv;//テクスチャ座標
+		XMVECTOR normal;//法線
+		XMVECTOR tangent;//接線
 	};
 
 	int vertexCount_;	//頂点数

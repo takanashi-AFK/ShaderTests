@@ -84,27 +84,12 @@ float4 PS(VS_OUT inData) : SV_Target
      float4 Clr = 3.0f;
      inData.color = floor(inData.color * Clr) / Clr;
 
-     /*if (inData.color.x < 1 / 3.0f)
-     {
-         Clr = float4(0.0, 0.0, 0.0, 1.0);
-     }
-     else if (inData.color.x < 2 / 3.0f)
-     {
-         Clr = float4(0.5, 0.5, 0.5, 1.0);
-     }
-     else
-     {
-         Clr = float4(1.0, 1.0, 1.0, 1.0);
-     }*/
-
-
-
-     if (isTexture == false)
+     if (isTexture == 1)
      {
          diffuse = lightSource * diffuseColor * inData.color;
          ambient = lightSource * diffuseColor * ambientSource;
      }
-     else
+     else if(isTexture == 0)
      {
          diffuse = lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
          ambient = lightSource * g_texture.Sample(g_sampler, inData.uv) * ambientSource;
