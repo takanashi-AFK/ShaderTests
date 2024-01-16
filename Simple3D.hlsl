@@ -78,7 +78,7 @@ float4 PS(VS_OUT inData) : SV_Target
     // float4 reflect = normalize(2 * NL * inData.normal - normalize(lightPosition));
     float4 specular = pow(saturate(dot(reflection, normalize(inData.eyev))), shininess) * specularColor;
 
-     if (isTexture == false)
+     if (isTexture == 1)
      {
          diffuse = lightSource * diffuseColor * inData.color;
          ambient = lightSource * diffuseColor * ambientSource;
