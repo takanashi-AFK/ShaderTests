@@ -33,8 +33,11 @@ class Fbx
 		XMMATRIX	matW;
 		XMMATRIX	matWVP;//ワールドビュープロジェクション
 		XMMATRIX	matNormal;//スケール*平行移動の逆行列
-		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
-		int			isTexture;//これなんでintなん？あとでboolに直して試してみる
+		XMFLOAT4	diffuseColor;
+		XMFLOAT4	ambientColor;
+		XMFLOAT4	specularColor;
+		BOOL			isTexture;//これなんでintなん？あとでboolに直して試してみる
+		BOOL			isNormalMap;
 
 	};
 

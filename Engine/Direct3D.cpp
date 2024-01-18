@@ -343,13 +343,13 @@ HRESULT Direct3D::InitNormalShader()
 	if (FAILED(hr)) return hr;
 	//頂点インプットレイアウト
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(DirectX::XMVECTOR)*0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::XMVECTOR)*1 , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
 		{ "NORMAL",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(DirectX::XMVECTOR) * 2 ,	D3D11_INPUT_PER_VERTEX_DATA, 0 },//法線
 		{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(DirectX::XMVECTOR) * 3 ,	D3D11_INPUT_PER_VERTEX_DATA, 0 },//接線
 	};
 
-	hr = pDevice_->CreateInputLayout(layout, 3, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_NORMAL].pVertexLayout_));
+	hr = pDevice_->CreateInputLayout(layout, ARRAYSIZE(layout), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_NORMAL].pVertexLayout_));
 	if (FAILED(hr)) return hr;
 	SAFE_RELEASE(pCompileVS)
 		// ピクセルシェーダの作成（コンパイル）
@@ -365,7 +365,7 @@ HRESULT Direct3D::InitNormalShader()
 
 
 	///////////ここ！！！////////////
-	rdc.CullMode = D3D11_CULL_FRONT;
+	rdc.CullMode = D3D11_CULL_NONE;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	/////////////////////////////////
 

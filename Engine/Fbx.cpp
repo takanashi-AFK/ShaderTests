@@ -59,7 +59,7 @@ HRESULT Fbx::Load(std::string fileName)
 
 void Fbx::Draw(Transform& transform)
 {
-	Direct3D::SetShader(SHADER_OUTLINE);
+	Direct3D::SetShader(SHADER_NORMAL);
 	transform.Calclation();
 
 	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
@@ -71,9 +71,6 @@ void Fbx::Draw(Transform& transform)
 	SetBufferToPipeline(transform);
 
 	}
-		else
-		{
-		}
 	}
 }
 
@@ -113,32 +110,20 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 	/////normalのための頂点情報をもってくる/////
 	for (int i = 0; i < polygonCount_; i++)
 	{
-		mesh->GetElementTangentCount();
-
-		int sIndex = mesh->GetPolygonVertexIndex(i);
+		FbxVector4 tangent{0,0,0,0};
 		FbxGeometryElementTangent* t = mesh->GetElementTangent(0);
-
-		if (t==nullptr)
+		int sIndex = mesh->GetPolygonVertexIndex(i);
+		if (t)
 		{
 		//XYZWがはいってくる
 		FbxVector4 tangent = t->GetDirectArray().GetAt(sIndex).mData;
-			for (int j = 0; j < 3; j++)
-			{
-				//ポリゴンのインデックスをそのままもってくる
-				int index = mesh->GetPolygonVertices()[sIndex + j];
-				vertices[index].tangent =
-				{ (float)tangent[0],(float)tangent[1],(float)tangent[2] ,(float)tangent[3] };
-			}
 		}
-		else
+		for (int j = 0; j < 3; j++)
 		{
-			for (int j = 0; j < 3; j++)
-			{
-				//ポリゴンのインデックスをそのままもってくる
-				int index = mesh->GetPolygonVertices()[sIndex + j];
-				vertices[index].tangent =
-				{ 0.0f,0.0f,0.0f ,0.0f };
-			}
+			//ポリゴンのインデックスをそのままもってくる
+			int index = mesh->GetPolygonVertices()[sIndex + j];
+			vertices[index].tangent =
+			{ (float)tangent[0],(float)tangent[1],(float)tangent[2], 0.0f};
 		}
 	}
 
@@ -193,7 +178,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 		indexCount_[i] = count;
 		D3D11_BUFFER_DESC   bd;
 		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.ByteWidth = sizeof(int) * count;
+		bd.ByteWidth = sizeof(int) * count*3;
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		bd.CPUAccessFlags = 0;
 		bd.MiscFlags = 0;
@@ -262,17 +247,14 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 			else
 			{
 				pMaterialList_[i].pTexture = nullptr;
-				//マテリアルの色
-				FbxSurfaceLambert* pMaterial = (FbxSurfaceLambert*)pNode->GetMaterial(i);
-				FbxDouble3  diffuse = pMaterial->Diffuse;
-				pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
+				
 			}
 		}
 
 		//ノーマルマップ用
 		{
 			//テクスチャ情報
-			FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sNormalMap);
+			FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sBump);
 
 			//テクスチャの数
 			int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
@@ -332,6 +314,7 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 	cb.diffuseColor = pMaterialList_[i].diffuse;
+	cb.isNormalMap = pMaterialList_[i].pNormalTexture != nullptr;
 	
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
 
@@ -364,11 +347,8 @@ void Fbx::SetBufferToPipeline(Transform transform)
 		if (pMaterialList_[i].pNormalTexture)
 		{
 			ID3D11ShaderResourceView* pSRV = pMaterialList_[i].pNormalTexture->GetSRV();
-			Direct3D::pContext_->PSSetShaderResources(2, 1, &pSRV);
+			Direct3D::pContext_->PSSetShaderResources(1, 1, &pSRV);
 		}
-
-		ID3D11ShaderResourceView* pSRVToon = pToonTex->GetSRV();
-		Direct3D::pContext_->PSSetShaderResources(1, 1, &pSRVToon);
 
 		Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
 	}

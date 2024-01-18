@@ -75,8 +75,9 @@ void Stage::Update()
 
 	CBUFF_STAGESCENE cbStage;
 
-	lightPosTrans.rotate_.z += 0.2;
+	
 	lightPosTrans.rotate_.y += 0.2;
+	lightPosTrans.position_.y = -2;
 
 	//cbStage.lightPosition = LightPosController::GetLightPosition();
 	cbStage.lightPosition = lightPos;
