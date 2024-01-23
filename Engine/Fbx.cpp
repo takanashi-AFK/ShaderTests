@@ -296,6 +296,7 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.diffuseColor = pMaterialList_[i].diffuse;
 	
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+	Direct3D::pContext_->UpdateSubresource(pConstantBuffer_, 0, NULL, &cb, 0, 0);
 
 
 		D3D11_MAPPED_SUBRESOURCE pdata;
