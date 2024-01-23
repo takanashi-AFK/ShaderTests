@@ -21,7 +21,7 @@ namespace Direct3D
 {
 	extern ID3D11Device* pDevice_;		//デバイス
 	extern 	ID3D11DeviceContext* pContext_;		//デバイスコンテキスト
-
+	ID3D11BlendState* pBlendState_;
 	//初期化
 	HRESULT Initialize(int winW, int winH, HWND hWnd);
 
