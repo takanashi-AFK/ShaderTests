@@ -10,8 +10,6 @@ SamplerState    g_sampler : register(s0);   //サンプラー
  // コンスタントバッファ
 // DirectX 側から送信されてくる、ポリゴン頂点以外の諸情報の定義
 //───────────────────────────────────────
-
-//cBuffer from FBX.h
 cbuffer global:register(b0)
 {
     float4x4    matW;           //ワールド行列
@@ -21,7 +19,6 @@ cbuffer global:register(b0)
     bool        isTexture;      // テクスチャ貼ってあるかどうか
 };
 
-//cBuffer from stage.cpp
 cbuffer global:register(b1)
 {
     float4      lightPosition;  //ライトの方向
@@ -51,7 +48,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
     //スクリーン座標に変換し、ピクセルシェーダーへ
     outData.pos = mul(pos, matWVP);
     outData.uv = uv;
-    normal.w = 0;// 0いれとくとバグとかが少ない
+    normal.w = 0;
     normal = mul(normal, matNormal);
     normal = normalize(normal);
     outData.normal = normal;
