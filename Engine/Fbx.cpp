@@ -216,8 +216,8 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 
 		if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId)) {
 			FbxDouble3 specular = pPhong->Specular;
-			FbxDouble shininess = pPhong->Shininess;
 			pMaterialList_[i].specular = XMFLOAT4{ (float)specular[0],(float)specular[1] ,(float)specular[2],1.0f };
+			FbxDouble shininess = pPhong->Shininess;
 			pMaterialList_[i].shininess = (float)shininess;
 		}
 
@@ -280,8 +280,6 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 				pMaterialList_[i].pNormalTexture = nullptr;
 				//マテリアルの色
 			}
-
-
 		}
 	}
 }
@@ -314,11 +312,13 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 	cb.diffuseColor = pMaterialList_[i].diffuse;
-	cb.isNormalMap = pMaterialList_[i].pNormalTexture != nullptr;
-	
+	cb.ambientColor = pMaterialList_[i].ambient;
+	cb.specularColor = pMaterialList_[i].specular;
+	cb.shininess = pMaterialList_[i].shininess;
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+	cb.isNormalMap = pMaterialList_[i].pNormalTexture != nullptr;
 
-
+	Direct3D::pContext_->UpdateSubresource(pConstantBuffer_, 0, NULL, &cb, 0, 0);
 		D3D11_MAPPED_SUBRESOURCE pdata;
 		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 		memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る

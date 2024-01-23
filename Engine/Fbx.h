@@ -36,6 +36,7 @@ class Fbx
 		XMFLOAT4	diffuseColor;
 		XMFLOAT4	ambientColor;
 		XMFLOAT4	specularColor;
+		FLOAT		shininess;
 		BOOL			isTexture;//‚±‚ê‚È‚ñ‚Åint‚È‚ñH‚ ‚Æ‚Åbool‚É’¼‚µ‚Ä‚µ‚Ä‚İ‚é
 		BOOL			isNormalMap;
 
