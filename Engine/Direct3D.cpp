@@ -171,9 +171,9 @@ HRESULT Direct3D::InitShader3D()
 
 	hr = pDevice_->CreateInputLayout(layout, 3, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_3D].pVertexLayout_));
 	if (FAILED(hr)) return hr;
-	SAFE_RELEASE(pCompileVS)
-		// ピクセルシェーダの作成（コンパイル）
-		ID3DBlob* pCompilePS = nullptr;
+	SAFE_RELEASE(pCompileVS);
+	// ピクセルシェーダの作成（コンパイル）
+	ID3DBlob* pCompilePS = nullptr;
 	hr = D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	if (FAILED(hr)) return hr;
 	assert(pCompilePS != nullptr);

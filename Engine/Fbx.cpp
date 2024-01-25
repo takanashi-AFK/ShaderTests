@@ -61,17 +61,8 @@ void Fbx::Draw(Transform& transform)
 {
 	Direct3D::SetShader(SHADER_NORMAL);
 	transform.Calclation();
-
-	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
-	for (int i = 0; i < 2; i++)
-	{
 	SetBufferToPipeline(transform);
-	if (i == 0) {
-	Direct3D::SetShader(SHADER_3D);
-	SetBufferToPipeline(transform);
-
-	}
-	}
+	
 }
 
 
