@@ -21,7 +21,6 @@ namespace Direct3D
 {
 	extern ID3D11Device* pDevice_;		//デバイス
 	extern 	ID3D11DeviceContext* pContext_;		//デバイスコンテキスト
-	ID3D11BlendState* pBlendState_;
 	//初期化
 	HRESULT Initialize(int winW, int winH, HWND hWnd);
 
@@ -38,7 +37,7 @@ namespace Direct3D
 
 	HRESULT InitNormalShader();
 
-	void SetShader(SHADER_TYPE type) ;
+	void SetShader(SHADER_TYPE type);
 
 
 	//描画開始
@@ -49,4 +48,6 @@ namespace Direct3D
 
 	//解放
 	void Release();
-};
+
+	void SetDepthBafferWriteEnable(bool _toggle);
+}

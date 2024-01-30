@@ -14,6 +14,7 @@ namespace Direct3D
 	ID3D11RenderTargetView* pRenderTargetView_ = nullptr;	//レンダーターゲットビュー
 	ID3D11Texture2D* pDepthStencil;			//深度ステンシル
 	ID3D11DepthStencilView* pDepthStencilView;		//深度ステンシルビュー
+	ID3D11BlendState* pBlendState_;
 
 	struct SHADER_BUNDLE
 	{
@@ -439,3 +440,21 @@ void Direct3D::Release()
 	SAFE_RELEASE(pContext_);
 	SAFE_RELEASE(pDevice_);
 }
+
+
+void Direct3D::SetDepthBafferWriteEnable(bool _toggle)
+{
+	//ON
+	if (_toggle)
+	{
+		//Zバッファ（デプスステンシルを指定する）
+		pContext_->OMSetRenderTargets(1, &pRenderTargetView_, pDepthStencilView);
+	}
+
+	//OFF
+	else
+	{
+		pContext_->OMSetRenderTargets(1, &pRenderTargetView_, nullptr);
+	}
+}
+

@@ -18,16 +18,22 @@ struct CBUFF_STAGESCENE
 
 void Stage::Initialize()
 {
-	hModelLightPos = Model::Load("Assets/Donut.fbx");
+	hModelLightPos = Model::Load("Assets/Dice.fbx");
+	hModelA = Model::Load("Assets/Donut.fbx");
 
-
+	transform_.position_.z = +2;
+	transform_.position_.x = -2;
+	transform_.position_.y = -2;
 	lightPos = { 0,0,0,0 };
 
 	InitConstantBuffer();
 
-	
-	//pSprite = new Sprite();
-	//pSprite->Initialize();
+	pSprite = new Sprite;
+	pSprite->Load("Assets/Space.jpg");
+
+	Direct3D::SetDepthBafferWriteEnable(false);
+
+
 }
 
 void Stage::Update()
@@ -86,15 +92,17 @@ void Stage::Update()
 
 	Direct3D::pContext_->VSSetConstantBuffers(1, 1, &pCBStageScene_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(1, 1, &pCBStageScene_);	//ピクセルシェーダー用
+
 }
 
 void Stage::Draw()
 {
+	Model::SetTransform(hModelA, transform_);
+	Model::Draw(hModelA);
 	Model::SetTransform(hModelLightPos, lightPosTrans);
 	Model::Draw(hModelLightPos);
 
-	//spTrans.scale_ = { 0.75 ,0.75 ,0.75 };
-	//pSprite->Draw(spTrans);
+	pSprite->Draw(transform_);
 }
 
 void Stage::Release()

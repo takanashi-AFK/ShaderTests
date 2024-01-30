@@ -52,6 +52,8 @@ public:
     //引数：transform  トランスフォームクラスオブジェクト
     void Draw(Transform& transform);
 
+    HRESULT Load(std::string filename);
+
     //解放
     void Release();
 
@@ -67,7 +69,7 @@ private:
 
     HRESULT CreateConstantBuffer();     //コンスタントバッファ作成
 
-    HRESULT LoadTexture();              //テクスチャをロード
+    HRESULT LoadTexture(string fileName);              //テクスチャをロード
 
 
     //---------Draw関数から呼ばれる関数---------

@@ -42,12 +42,6 @@ HRESULT Sprite::Initialize()
         return E_FAIL;
     }
 
-    //テクスチャのロード
-    if (FAILED(LoadTexture()))
-    {
-        return E_FAIL;
-    }
-
     return S_OK;
 }
 
@@ -68,6 +62,27 @@ void Sprite::Draw(Transform& transform)
 
     //描画
     Direct3D::pContext_->DrawIndexed(indexNum, 0, 0);
+}
+
+HRESULT Sprite::Load(std::string filename)
+{
+    if (FAILED(LoadTexture(filename)))
+    {
+        return E_FAIL;
+    }
+    //頂点情報
+    InitVertexData();					//データを用意して
+
+    //インデックス情報
+    InitIndexData();					//データを用意して
+
+    //コンスタントバッファ作成
+    if (FAILED(CreateConstantBuffer()))
+    {
+        return E_FAIL;
+    }
+
+    return S_OK;
 }
 
 //解放
@@ -186,12 +201,12 @@ HRESULT Sprite::CreateConstantBuffer()
 }
 
 //テクスチャをロード
-HRESULT Sprite::LoadTexture()
+HRESULT Sprite::LoadTexture(string fileName)
 {
     pTexture_ = new Texture;
 
     HRESULT hr;
-    hr = pTexture_->Load("Assets\\omokoro.png");
+    hr = pTexture_->Load(fileName);
     if (FAILED(hr))
     {
         MessageBox(NULL, "テクスチャの作成に失敗しました", "エラー", MB_OK);
