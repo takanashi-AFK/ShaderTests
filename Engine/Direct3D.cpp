@@ -219,6 +219,9 @@ HRESULT Direct3D::InitShader3D()
 
 	hr = pDevice_->CreateRasterizerState(&rdc, &(shaderBundle[SHADER_3D].pRasterizerState_));
 	if (FAILED(hr)) return hr;
+
+	return hr;
+
 }
 
 HRESULT Direct3D::InitShader2D()
@@ -265,6 +268,9 @@ HRESULT Direct3D::InitShader2D()
 
 	hr = pDevice_->CreateRasterizerState(&rdc, &(shaderBundle[SHADER_2D].pRasterizerState_));
 	if (FAILED(hr)) return hr;
+
+	return hr;
+
 }
 
 HRESULT Direct3D::InitToonShader()
@@ -310,6 +316,9 @@ HRESULT Direct3D::InitToonShader()
 
 	hr = pDevice_->CreateRasterizerState(&rdc, &(shaderBundle[SHADER_TOON].pRasterizerState_));
 	if (FAILED(hr)) return hr;
+
+	return hr;
+
 }
 
 HRESULT Direct3D::InitOutLineShader()
@@ -354,6 +363,9 @@ HRESULT Direct3D::InitOutLineShader()
 
 	hr = pDevice_->CreateRasterizerState(&rdc, &(shaderBundle[SHADER_OUTLINE].pRasterizerState_));
 	if (FAILED(hr)) return hr;
+
+	return hr;
+
 }
 
 HRESULT Direct3D::InitNormalShader()
@@ -374,7 +386,7 @@ HRESULT Direct3D::InitNormalShader()
 		{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(DirectX::XMVECTOR) * 3 ,	D3D11_INPUT_PER_VERTEX_DATA, 0 },//接線
 	};
 
-	hr = pDevice_->CreateInputLayout(layout, 3, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_NORMAL].pVertexLayout_));
+	hr = pDevice_->CreateInputLayout(layout, ARRAYSIZE(layout), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_NORMAL].pVertexLayout_));
 	if (FAILED(hr)) return hr;
 	SAFE_RELEASE(pCompileVS)
 		// ピクセルシェーダの作成（コンパイル）
@@ -399,6 +411,8 @@ HRESULT Direct3D::InitNormalShader()
 
 	hr = pDevice_->CreateRasterizerState(&rdc, &(shaderBundle[SHADER_NORMAL].pRasterizerState_));
 	if (FAILED(hr)) return hr;
+
+	return hr;
 
 }
 

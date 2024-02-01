@@ -19,17 +19,11 @@ struct CBUFF_STAGESCENE
 void Stage::Initialize()
 {
 	hModelLightPos = Model::Load("Assets/Dice.fbx");
-	hModelA = Model::Load("Assets/Donut.fbx");
+	hModelA = Model::Load("Assets/Water/Water.FBX");
 
-	transform_.position_.z = +2;
-	transform_.position_.x = -2;
-	transform_.position_.y = -2;
 	lightPos = { 0,0,0,0 };
 
 	InitConstantBuffer();
-
-	pSprite = new Sprite;
-	pSprite->Load("Assets/Space.jpg");
 
 	Direct3D::SetDepthBafferWriteEnable(false);
 
@@ -101,8 +95,6 @@ void Stage::Draw()
 	Model::Draw(hModelA);
 	Model::SetTransform(hModelLightPos, lightPosTrans);
 	Model::Draw(hModelLightPos);
-
-	pSprite->Draw(transform_);
 }
 
 void Stage::Release()

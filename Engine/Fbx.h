@@ -21,6 +21,7 @@ class Fbx
 	struct MATERIAL
 	{
 		Texture* pTexture;
+		Texture* pNormalTexture;
 		XMFLOAT4	ambient;
 		XMFLOAT4	diffuse;
 		XMFLOAT4 specular;
@@ -33,7 +34,11 @@ class Fbx
 		XMMATRIX	matWVP;//ワールドビュープロジェクション
 		XMMATRIX	matNormal;//スケール*平行移動の逆行列
 		XMFLOAT4	diffuseColor;// ディフューズカラー（マテリアルの色）
+		XMFLOAT4	ambientColor;
+		XMFLOAT4	specularColor;
+		float		shininess;
 		int			isTexture;
+		int			isNormal;
 	};
 
 	struct VERTEX

@@ -62,17 +62,12 @@ HRESULT Fbx::Load(std::string fileName)
 
 void Fbx::Draw(Transform& transform)
 {
-	Direct3D::SetShader(SHADER_OUTLINE);
+	Direct3D::SetShader(SHADER_NORMAL);
 	transform.Calclation();
 
 	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
 	SetBufferToPipeline(transform);
 
-	Direct3D::SetShader(SHADER_3D);
-	transform.Calclation();
-
-	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
-	SetBufferToPipeline(transform);
 }
 
 
@@ -294,8 +289,12 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 	cb.diffuseColor = pMaterialList_[i].diffuse;
-	
+	cb.ambientColor = pMaterialList_[i].ambient;
+	cb.specularColor = pMaterialList_[i].specular;
+	cb.shininess = pMaterialList_[i].shininess;
+	cb.isNormal = pMaterialList_[i].pNormalTexture != nullptr;
 	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+
 	Direct3D::pContext_->UpdateSubresource(pConstantBuffer_, 0, NULL, &cb, 0, 0);
 
 
