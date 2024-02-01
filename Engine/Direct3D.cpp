@@ -402,7 +402,7 @@ HRESULT Direct3D::InitNormalShader()
 
 
 	///////////Ç±Ç±ÅIÅIÅI////////////
-	rdc.CullMode = D3D11_CULL_FRONT;
+	rdc.CullMode = D3D11_CULL_NONE;
 	rdc.FillMode = D3D11_FILL_SOLID;
 	/////////////////////////////////
 
