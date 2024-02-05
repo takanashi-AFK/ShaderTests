@@ -212,19 +212,23 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 	for (int i = 0; i < materialCount_; i++)
 	{
 		//i番目のマテリアル情報を取得
-		FbxSurfacePhong* pMaterial =static_cast<FbxSurfacePhong*>( pNode->GetMaterial(i));
-		FbxDouble3 diffuse = pMaterial->Diffuse;
-		FbxDouble3 ambient = pMaterial->Ambient;
+		FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+		FbxSurfacePhong* pPhong = (FbxSurfacePhong*)pMaterial;
+		FbxDouble3 diffuse = pPhong->Diffuse;
+		FbxDouble3 ambient = pPhong->Ambient;
+		pMaterialList_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
+		pMaterialList_[i].ambient = XMFLOAT4((float)ambient[0], (float)ambient[1], (float)ambient[2], 1.0f);
+		pMaterialList_[i].specular = XMFLOAT4(0, 0, 0, 0);	//とりあえずハイライトは黒
+		pMaterialList_[i].shininess = 1;
+
 
 		if (pMaterial->GetClassId().Is(FbxSurfacePhong::ClassId)) {
-			FbxDouble3 specular = pMaterial->Specular;
-			FbxDouble shininess = pMaterial->Shininess;
+			FbxDouble3 specular = pPhong->Specular;
 			pMaterialList_[i].specular = XMFLOAT4{ (float)specular[0],(float)specular[1] ,(float)specular[2],1.0f };
+			FbxDouble shininess = pPhong->Shininess;
 			pMaterialList_[i].shininess = (float)shininess;
 		}
 
-		pMaterialList_[i].diffuse = XMFLOAT4{ (float)diffuse[0],(float)diffuse[1] ,(float)diffuse[2],1.0f };
-		pMaterialList_[i].ambient = XMFLOAT4{ (float)ambient[0],(float)ambient[1] ,(float)ambient[2],1.0f };
 		//テクスチャ情報
 		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 
@@ -292,8 +296,8 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.ambientColor = pMaterialList_[i].ambient;
 	cb.specularColor = pMaterialList_[i].specular;
 	cb.shininess = pMaterialList_[i].shininess;
-	cb.isNormal = pMaterialList_[i].pNormalTexture != nullptr;
-	cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+	cb.hasTexture = pMaterialList_[i].pTexture != nullptr;
+	cb.hasNormal = pMaterialList_[i].pNormalTexture != nullptr;
 
 	Direct3D::pContext_->UpdateSubresource(pConstantBuffer_, 0, NULL, &cb, 0, 0);
 

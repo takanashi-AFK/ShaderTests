@@ -37,8 +37,8 @@ class Fbx
 		XMFLOAT4	ambientColor;
 		XMFLOAT4	specularColor;
 		float		shininess;
-		int			isTexture;
-		int			isNormal;
+		int			hasTexture;
+		int			hasNormal;
 	};
 
 	struct VERTEX

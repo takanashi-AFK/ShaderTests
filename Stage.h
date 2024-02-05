@@ -17,6 +17,7 @@ private:
 	XMFLOAT4 lightPos;
 
 	ID3D11Buffer* pCBStageScene_;
+	Sprite* psp;
 
 
 public:

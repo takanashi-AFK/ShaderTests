@@ -49,6 +49,9 @@ HRESULT Sprite::Initialize()
 //•`‰æ
 void Sprite::Draw(Transform& transform)
 {
+
+    static float scroll;
+    scroll += 0.001f;
     Direct3D::SetShader(SHADER_2D);
 
 

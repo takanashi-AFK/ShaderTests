@@ -18,16 +18,16 @@ struct CBUFF_STAGESCENE
 
 void Stage::Initialize()
 {
-	hModelLightPos = Model::Load("Assets/Dice.fbx");
+	hModelLightPos = Model::Load("Assets/donut.fbx");
 	hModelA = Model::Load("Assets/Water/Water.FBX");
 
 	lightPos = { 0,0,0,0 };
 
 	InitConstantBuffer();
 
-	Direct3D::SetDepthBafferWriteEnable(false);
-
-
+	Direct3D::SetDepthBafferWriteEnable(true);
+	psp = new Sprite;
+	psp->Load("Assets/Space.jpg");
 }
 
 void Stage::Update()
@@ -69,14 +69,23 @@ void Stage::Update()
 		lightPos.z -= 0.03;
 	}
 
+	if (Input::IsKey(DIK_LEFT))
+	{
+		lightPosTrans.rotate_.y -= 0.5;
+	}
+	if (Input::IsKey(DIK_RIGHT))
+	{
+		lightPosTrans.rotate_.y += 0.5;
+	}
+
 	LightPosController::SetLightPosition(lightPos);
 
 	lightPosTrans.position_ = { lightPos.x,lightPos.y, lightPos.z };
 
+	psp->Draw(transform_);
 	CBUFF_STAGESCENE cbStage;
 
-	lightPosTrans.rotate_.z += 0.2;
-	lightPosTrans.rotate_.y += 0.2;
+	
 
 	//cbStage.lightPosition = LightPosController::GetLightPosition();
 	cbStage.lightPosition = lightPos;
@@ -86,7 +95,6 @@ void Stage::Update()
 
 	Direct3D::pContext_->VSSetConstantBuffers(1, 1, &pCBStageScene_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(1, 1, &pCBStageScene_);	//ピクセルシェーダー用
-
 }
 
 void Stage::Draw()
