@@ -21,7 +21,8 @@ cbuffer gmodel:register(b0)
     float       shininess;
     bool        hasTexture;     //テクスチャの有無
     bool        hasNormalTexture;
-    float       scroll;
+    float       scrollX;
+    float       scrollY;
 };
 
 cbuffer gmodel:register(b1)
@@ -107,7 +108,8 @@ float4 PS(VS_OUT inData) : SV_Target
     float4 ambient;
 
     float2 tmpUV = inData.uv;
-    tmpUV.x = tmpUV.x + scroll;
+    tmpUV.x = tmpUV.x + scrollX;
+    tmpUV.y = tmpUV.y + scrollY;
     // ノーマルマップテクスチャの有無の確認
     //if (hasNormalTexture)return float4(1, 0, 0, 1);
     //return float4(0, 0, 0, 1);

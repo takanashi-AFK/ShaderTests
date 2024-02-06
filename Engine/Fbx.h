@@ -39,7 +39,8 @@ class Fbx
 		float		shininess;
 		int			hasTexture;
 		int			hasNormal;
-		float		scroll;
+		float		scrollX;
+		float		scrollY;
 	};
 
 	struct VERTEX
@@ -53,7 +54,8 @@ class Fbx
 	int polygonCount_;	//ポリゴン数 だいたいvertex*3になるでしょう
 	int materialCount_;	//マテリアルの個数
 	int *indexCount_;
-	float scrollVal_;
+	float scrollValX_;
+	float scrollValY_;
 
 	Texture *pToonTex;
 
