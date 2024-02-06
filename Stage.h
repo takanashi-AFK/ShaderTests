@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Sprite.h"
+#include "Engine/Quad.h"
 class Stage : public GameObject
 {
 private:
@@ -9,6 +10,7 @@ private:
 	int hModelA;
 
 	int hModelLightPos;
+	float scrollVal_;
 	Transform arrowTrans;
 	Transform ballTrans;
 	Transform lightPosTrans;
@@ -17,8 +19,7 @@ private:
 	XMFLOAT4 lightPos;
 
 	ID3D11Buffer* pCBStageScene_;
-	Sprite* psp;
-
+	Quad* pq;
 
 public:
 	//コンストラクタ

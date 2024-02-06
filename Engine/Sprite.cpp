@@ -1,4 +1,3 @@
-#include "Sprite.h"
 
 #include "Sprite.h"
 #include "Camera.h"

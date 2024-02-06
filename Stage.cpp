@@ -26,8 +26,11 @@ void Stage::Initialize()
 	InitConstantBuffer();
 
 	Direct3D::SetDepthBafferWriteEnable(true);
-	psp = new Sprite;
-	psp->Load("Assets/Space.jpg");
+	pq = new Quad;
+	pq->Initialize();
+
+	arrowTrans.position_.y = 4;
+	arrowTrans.scale_ = { 3,3,3 };
 }
 
 void Stage::Update()
@@ -81,11 +84,7 @@ void Stage::Update()
 	LightPosController::SetLightPosition(lightPos);
 
 	lightPosTrans.position_ = { lightPos.x,lightPos.y, lightPos.z };
-
-	psp->Draw(transform_);
 	CBUFF_STAGESCENE cbStage;
-
-	
 
 	//cbStage.lightPosition = LightPosController::GetLightPosition();
 	cbStage.lightPosition = lightPos;
@@ -99,10 +98,13 @@ void Stage::Update()
 
 void Stage::Draw()
 {
+	Direct3D::SetShader(SHADER_2D);
 	Model::SetTransform(hModelA, transform_);
 	Model::Draw(hModelA);
 	Model::SetTransform(hModelLightPos, lightPosTrans);
 	Model::Draw(hModelLightPos);
+
+	pq->Draw(arrowTrans);
 }
 
 void Stage::Release()

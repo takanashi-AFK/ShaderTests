@@ -14,6 +14,7 @@ struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;
 	XMMATRIX	matNormal; //matW‚©‚çNormal—p‚É‰ü–¼
+	float scroll;
 };
 
 struct VERTEX
@@ -41,6 +42,8 @@ public:
 	HRESULT Initialize();
 	void Draw(Transform& transform);
 	void Release();
+
+	float scrollValue_;
 
 private:
 	virtual void InitVertexData();

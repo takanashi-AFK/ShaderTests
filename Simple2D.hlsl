@@ -11,6 +11,8 @@ SamplerState    g_sampler : register(s0);   //サンプラー
 cbuffer global
 {
     float4x4    matW;       // ワールド行列
+    float4x4    matNormal;
+    float       scroll;
 };
 
 //───────────────────────────────────────
@@ -47,7 +49,10 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 float4 PS(VS_OUT inData) : SV_Target
 {
     float4 output;
-    output = g_texture.Sample(g_sampler, inData.uv);
+    float2 tmpUV = inData.uv;
+    tmpUV.x = tmpUV.x + scroll;
+
+    output = g_texture.Sample(g_sampler, tmpUV.xy);
 
 
    // output =( (output.x * 2) + (output.y * 4) + (output.z))/7; //GlayScale
