@@ -98,7 +98,6 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	Direct3D::SetShader(SHADER_2D);
 	Model::SetTransform(hModelA, transform_);
 	Model::Draw(hModelA);
 	Model::SetTransform(hModelLightPos, lightPosTrans);

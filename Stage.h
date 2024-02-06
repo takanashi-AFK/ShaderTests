@@ -10,7 +10,7 @@ private:
 	int hModelA;
 
 	int hModelLightPos;
-	float scrollVal_;
+	
 	Transform arrowTrans;
 	Transform ballTrans;
 	Transform lightPosTrans;

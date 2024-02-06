@@ -14,7 +14,11 @@ cbuffer global:register(b0)
     float4x4    matWVP;         // ワールド・ビュー・プロジェクションの合成行列
     float4x4    matNormal;      //法線
     float4      diffuseColor;   // ディフューズカラー（マテリアルの色）
-    bool        isTexture;      // テクスチャ貼ってあるかどうか
+    float4      ambientColor;
+    float4      specularColer;
+    float       shininess;
+    bool        hasTexture;// テクスチャ貼ってあるかどうか
+    bool        hasNormal;
 
 };
 
@@ -81,7 +85,7 @@ float4 PS(VS_OUT inData) : SV_Target
      inData.color = floor(inData.color * Clr) / Clr;
 
 
-     if (isTexture == false)
+     if (hasTexture == false)
      {
          diffuse = lightSource * diffuseColor * inData.color;
          ambient = lightSource * diffuseColor * ambientSource;

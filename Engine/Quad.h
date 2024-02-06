@@ -14,7 +14,6 @@ struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;
 	XMMATRIX	matNormal; //matW‚©‚çNormal—p‚É‰ü–¼
-	float scroll;
 };
 
 struct VERTEX
