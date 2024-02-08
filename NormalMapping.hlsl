@@ -19,8 +19,8 @@ cbuffer gmodel:register(b0)
     float4      ambientColor;   //環境光
     float4      specularColor;  //鏡面反射
     float       shininess;
-    bool        hasTexture;     //テクスチャの有無
-    bool        hasNormalTexture;
+    int        hasTexture;     //テクスチャの有無
+    int        hasNormalTexture;
     float       scrollX;
     float       scrollY;
 };
@@ -43,6 +43,8 @@ struct VS_OUT
     float4 normal   : NORMAL;
     float4 Neyev    : POSITION1;
     float4 light    : POSITION2;
+    float4 t        : POSITION3;
+    float4 b        : POSITION4;
 };
 
 //───────────────────────────────────────
@@ -58,9 +60,10 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL, f
     outData.pos = mul(pos, matWVP);
     outData.uv = (float2)uv;
 
-    float3  binormal = cross(normal, tangent);
+    float3 binormal = cross(tangent, normal);
+    binormal = mul(binormal, matNormal);
+    binormal = normalize(binormal);
 
-    normal.w = 0;
     normal = mul(normal, matNormal);
     normal = normalize(normal); //法線ベクトルをローカル座標に変換したやつ
     normal.w = 0;
@@ -78,21 +81,23 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL, f
 
     outData.Neyev.x = dot(outData.eyev, tangent);//接空間の視線ベクトル
     outData.Neyev.y = dot(outData.eyev, binormal);
-    outData.Neyev.z = dot(outData.eyev, normal);
+    outData.Neyev.z = dot(outData.eyev, outData.normal);
     outData.Neyev.w = 0;
 
     float4 light = normalize(lightPosition);
     light.w = 0;
-    light = normalize(light);
 
-
-    outData.color = mul(light, normal);
+    outData.color = mul(light, outData.normal);
     outData.color.w = 0.0;
 
     outData.light.x = dot(light, tangent);//接空間の光源ベクトル
     outData.light.y = dot(light, binormal);
-    outData.light.z = dot(light, normal);
-    outData.light.w = 0;
+    outData.light.z = dot(light, outData.normal);
+    outData.light.w = 1;
+
+    outData.t = (tangent.x, tangent.y, tangent.z,1);
+    outData.b = (binormal.x, binormal.y, binormal.z,1);
+
 
     //まとめて出力
     return outData;
@@ -109,7 +114,8 @@ float4 PS(VS_OUT inData) : SV_Target
 
     float2 tmpUV = inData.uv;
     tmpUV.x = tmpUV.x + scrollX;
-    tmpUV.y = tmpUV.y + scrollY;
+    tmpUV.y = tmpUV.y - scrollY;
+    
     // ノーマルマップテクスチャの有無の確認
     //if (hasNormalTexture)return float4(1, 0, 0, 1);
     //return float4(0, 0, 0, 1);
@@ -122,17 +128,19 @@ float4 PS(VS_OUT inData) : SV_Target
     if (hasNormalTexture)
     {
         //inData.light = normalize(inData.light);
-        float4 tmpNormal = g_normal_texture.Sample(g_sampler, tmpUV.x) * 2.0f - 1.0f;
+        float4 tmpNormal = g_normal_texture.Sample(g_sampler, inData.uv) * 2.0f - 1.0f;
         tmpNormal = normalize(tmpNormal);
         tmpNormal.w = 0;
+        tmpNormal = float4(0,1,0,0);
 
-        float4 NL = clamp(dot(normalize(inData.light), tmpNormal), 1, 2);
+        float4 NL = clamp(dot(normalize(inData.light), tmpNormal), 0, 1);
         float4 reflection = reflect(inData.light, tmpNormal);
         float4 specular = pow(saturate(dot(reflection, inData.Neyev)), shininess) * specularColor;
 
         if (hasTexture != 0) {
-            diffuse = g_texture.Sample(g_sampler, tmpUV.xy) * NL;
-            ambient = g_texture.Sample(g_sampler, tmpUV.xy) * ambientColor;
+            diffuse = g_texture.Sample(g_sampler, inData.uv) * NL;
+            ambient = g_texture.Sample(g_sampler, inData.uv) * ambientColor;
+
         }
         else {
             diffuse = diffuseColor * NL;

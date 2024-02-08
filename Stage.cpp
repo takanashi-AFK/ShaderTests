@@ -19,7 +19,8 @@ struct CBUFF_STAGESCENE
 void Stage::Initialize()
 {
 	hModelLightPos = Model::Load("Assets/donut.fbx");
-	hModelA = Model::Load("Assets/Water/Water.FBX");
+	hModelA = Model::Load("Assets/Water/newWater.FBX");
+	hModelB = Model::Load("Assets/Sphere.fbx");
 
 	lightPos = { 0,0,0,0 };
 
@@ -98,12 +99,16 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	Model::SetTransform(hModelA, transform_);
-	Model::Draw(hModelA);
-	Model::SetTransform(hModelLightPos, lightPosTrans);
+
+	Model::SetTransform(hModelLightPos, ballTrans);
 	Model::Draw(hModelLightPos);
 
-	pq->Draw(arrowTrans);
+	Model::SetTransform(hModelB, lightPosTrans);
+	Model::Draw(hModelB);
+
+	Model::SetTransform(hModelA, transform_);
+	Model::Draw(hModelA);
+//	pq->Draw(arrowTrans);
 }
 
 void Stage::Release()
