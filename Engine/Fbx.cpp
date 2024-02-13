@@ -62,8 +62,8 @@ HRESULT Fbx::Load(std::string fileName)
 
 void Fbx::Draw(Transform& transform)
 {
-	scrollValX_ += 0.001f;
-	scrollValY_ += 0.00079f;
+	NscrollValX_ += 0.001f;
+	NscrollValY_ += 0.00079f;
 	Direct3D::SetShader(SHADER_NORMAL);
 	transform.Calclation();
 
@@ -334,8 +334,8 @@ void Fbx::SetBufferToPipeline(Transform transform)
 	cb.shininess = pMaterialList_[i].shininess;
 	cb.hasTexture = pMaterialList_[i].pTexture != nullptr;
 	cb.hasNormal = pMaterialList_[i].pNormalTexture != nullptr;
-	cb.scrollX = sin(scrollValX_);
-	cb.scrollY = sin(scrollValY_);
+	cb.scrollX = sin(NscrollValX_);
+	cb.scrollY = sin(NscrollValY_);
 
 	Direct3D::pContext_->UpdateSubresource(pConstantBuffer_, 0, NULL, &cb, 0, 0);
 

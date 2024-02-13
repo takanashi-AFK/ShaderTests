@@ -54,8 +54,8 @@ class Fbx
 	int polygonCount_;	//ポリゴン数 だいたいvertex*3になるでしょう
 	int materialCount_;	//マテリアルの個数
 	int *indexCount_;
-	float scrollValX_;
-	float scrollValY_;
+	float NscrollValX_;
+	float NscrollValY_;
 
 	Texture *pToonTex;
 

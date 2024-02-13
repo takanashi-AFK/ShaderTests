@@ -128,7 +128,7 @@ float4 PS(VS_OUT inData) : SV_Target
     if (hasNormalTexture)
     {
         //inData.light = normalize(inData.light);
-        float4 tmpNormal = g_normal_texture.Sample(g_sampler, inData.uv) ;
+        float4 tmpNormal = g_normal_texture.Sample(g_sampler, tmpUV.xy) ;
         tmpNormal.w = 1;
         tmpNormal = mul(tmpNormal, matW);
         tmpNormal = normalize(tmpNormal);
