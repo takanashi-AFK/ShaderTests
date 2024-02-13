@@ -19,8 +19,8 @@ cbuffer gmodel:register(b0)
     float4      ambientColor;   //環境光
     float4      specularColor;  //鏡面反射
     float       shininess;
-    int        hasTexture;     //テクスチャの有無
-    int        hasNormalTexture;
+    int         hasTexture;     //テクスチャの有無
+    int         hasNormalTexture;
     float       scrollX;
     float       scrollY;
 };

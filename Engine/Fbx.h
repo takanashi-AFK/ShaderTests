@@ -57,6 +57,9 @@ class Fbx
 	float NscrollValX_;
 	float NscrollValY_;
 
+	float TscrollValX_;
+	float TscrollValY_;
+
 	Texture *pToonTex;
 
 	ID3D11Buffer* pVertexBuffer_;

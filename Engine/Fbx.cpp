@@ -64,6 +64,10 @@ void Fbx::Draw(Transform& transform)
 {
 	NscrollValX_ += 0.001f;
 	NscrollValY_ += 0.00079f;
+
+	TscrollValX_ += 0.001f;
+	TscrollValY_ += 0.00079f;
+
 	Direct3D::SetShader(SHADER_NORMAL);
 	transform.Calclation();
 
